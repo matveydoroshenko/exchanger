@@ -324,56 +324,56 @@ async def final_exchange(call: CallbackQuery, state: FSMContext):
     usdt = users_crypto_balance[2]
     eth = users_crypto_balance[3]
     btc = users_crypto_balance[4]
-    extra_charge = int(db.select_extra_charge()[0][1])
+    extra_charge = float(db.select_extra_charge()[0][1])
     fiat_balance = round(convert_to_rubles(usdt, eth, btc, user[4], "RUB") - convert_to_rubles(usdt, eth, btc, 0, "RUB"))
     if currency == "RUB":
         response = requests.get("https://api.coinbase.com/v2/exchange-rates?currency=RUB")
         data = response.json()
         if changing_currency == "BTC":
-            rate = int(data.get('data').get('rates').get('BTC'))
+            rate = float(data.get('data').get('rates').get('BTC'))
             db.update_btc_balance(user_id=call.message.chat.id, new_btc_balance=btc + exchange_sum * (rate - rate * extra_charge))
         elif changing_currency == "ETH":
-            rate = int(data.get('data').get('rates').get('ETH'))
+            rate = float(data.get('data').get('rates').get('ETH'))
             db.update_eth_balance(user_id=call.message.chat.id, new_eth_balance=eth + exchange_sum * (rate - rate * extra_charge))
         elif changing_currency == "USDT":
-            rate = int(data.get('data').get('rates').get('USDT'))
+            rate = float(data.get('data').get('rates').get('USDT'))
             db.update_usdt_balance(user_id=call.message.chat.id, new_usdt_balance=usdt + exchange_sum * (rate - rate * extra_charge))
     elif currency == "BTC":
         response = requests.get("https://api.coinbase.com/v2/exchange-rates?currency=BTC")
         data = response.json()
         if changing_currency == "RUB":
-            rate = int(data.get('data').get('rates').get('RUB'))
+            rate = float(data.get('data').get('rates').get('RUB'))
             db.update_user_fiat_balance(user_id=call.message.chat.id,
                                         new_fiat_balance=fiat_balance + exchange_sum * (rate - rate * extra_charge))
         elif changing_currency == "ETH":
-            rate = int(data.get('data').get('rates').get('ETH'))
+            rate = float(data.get('data').get('rates').get('ETH'))
             db.update_eth_balance(user_id=call.message.chat.id, new_eth_balance=eth + exchange_sum * (rate - rate * extra_charge))
         elif changing_currency == "USDT":
-            rate = int(data.get('data').get('rates').get('USDT'))
+            rate = float(data.get('data').get('rates').get('USDT'))
             db.update_usdt_balance(user_id=call.message.chat.id, new_usdt_balance=usdt + exchange_sum * (rate - rate * extra_charge))
     elif currency == "ETH":
         response = requests.get("https://api.coinbase.com/v2/exchange-rates?currency=ETH")
         data = response.json()
         if changing_currency == "BTC":
-            rate = int(data.get('data').get('rates').get('BTC'))
+            rate = float(data.get('data').get('rates').get('BTC'))
             db.update_btc_balance(user_id=call.message.chat.id, new_btc_balance=btc + exchange_sum * (rate + rate - extra_charge))
         elif changing_currency == "RUB":
-            rate = int(data.get('data').get('rates').get('RUB'))
+            rate = float(data.get('data').get('rates').get('RUB'))
             db.update_user_fiat_balance(user_id=call.message.chat.id,
                                         new_fiat_balance=fiat_balance + exchange_sum * (rate + rate - extra_charge))
         elif changing_currency == "USDT":
-            rate = int(data.get('data').get('rates').get('USDT'))
+            rate = float(data.get('data').get('rates').get('USDT'))
             db.update_usdt_balance(user_id=call.message.chat.id, new_usdt_balance=usdt + exchange_sum * (rate + rate - extra_charge))
     elif currency == "USDT":
         response = requests.get("https://api.coinbase.com/v2/exchange-rates?currency=USDT")
         data = response.json()
         if changing_currency == "BTC":
-            rate = int(data.get('data').get('rates').get('BTC'))
+            rate = float(data.get('data').get('rates').get('BTC'))
             db.update_btc_balance(user_id=call.message.chat.id, new_btc_balance=btc + exchange_sum * (rate + rate - extra_charge))
         elif changing_currency == "RUB":
-            rate = int(data.get('data').get('rates').get('RUB'))
+            rate = float(data.get('data').get('rates').get('RUB'))
             db.update_user_fiat_balance(user_id=call.message.chat.id, new_fiat_balance=fiat_balance + exchange_sum * (rate - rate * extra_charge))
         elif changing_currency == "ETH":
-            rate = int(data.get('data').get('rates').get('ETH'))
+            rate = float(data.get('data').get('rates').get('ETH'))
             db.update_eth_balance(user_id=call.message.chat.id, new_eth_balance=eth + exchange_sum * (rate - rate * extra_charge))
     await call.message.answer("Успешно обменено!")
