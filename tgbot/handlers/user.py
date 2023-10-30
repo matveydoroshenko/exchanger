@@ -55,8 +55,7 @@ async def wallet(message: Message, bot: Bot):
     else:
         currency_sign = "₽"
     verification_status = "✅ Да" if user[3] == "True" else "❌ Нет"
-    await message.answer_photo(photo=FSInputFile(path="/Users/matvejdoroshenko/PycharmProjects"
-                                                      "/@Remitano_inbot/images/wallet_button.jpeg"),
+    await message.answer_photo(photo=FSInputFile(path="/exchanger/images/wallet_button.jpeg"),
                                caption=f"💼{hbold('Кошелек')}:\n"
                                        f"\n➖➖➖➖➖➖➖➖➖➖"
                                        f"\n📑 Верификация: {verification_status}"
@@ -104,8 +103,7 @@ async def verf(call: CallbackQuery):
     else:
         text = "Ваш аккаунт верифицирован ✅"
         verified = True
-    await call.message.answer_photo(photo=FSInputFile(path="/Users/matvejdoroshenko/PycharmProjects"
-                                                           "/@Remitano_inbot/images/verification.jpeg"),
+    await call.message.answer_photo(photo=FSInputFile(path="/exchanger/images/verification.jpeg"),
                                     caption=text,
                                     reply_markup=verif_keyboard(verified))
 
@@ -143,16 +141,14 @@ async def about_service(message: Message, bot: Bot):
            "\n\nЗагруженность бота:" \
            f"\n{black_square + white_square} {capacity_percent}%"
 
-    await message.answer_photo(photo=FSInputFile(path="/Users/matvejdoroshenko/PycharmProjects"
-                                                      "/@Remitano_inbot/images/about_service.jpeg"),
+    await message.answer_photo(photo=FSInputFile(path="/exchanger/images/about_service.jpeg"),
                                caption=text,
                                reply_markup=about_service_keyboard())
 
 
 @user_router.callback_query(F.data == "popoln")
 async def popoln(call: CallbackQuery):
-    await call.message.answer_photo(photo=FSInputFile(path="/Users/matvejdoroshenko/PycharmProjects"
-                                                           "/@Remitano_inbot/images/top_up.jpeg"),
+    await call.message.answer_photo(photo=FSInputFile(path="/exchanger/images/top_up.jpeg"),
                                     caption="Выберите вариант пополнения баланса:",
                                     reply_markup=top_up_keyboard())
 
@@ -334,50 +330,50 @@ async def final_exchange(call: CallbackQuery, state: FSMContext):
         response = requests.get("https://api.coinbase.com/v2/exchange-rates?currency=RUB")
         data = response.json()
         if changing_currency == "BTC":
-            rate = data.get('data').get('rates').get('BTC')
+            rate = int(data.get('data').get('rates').get('BTC'))
             db.update_btc_balance(user_id=call.message.chat.id, new_btc_balance=btc + exchange_sum * (rate - rate * extra_charge))
         elif changing_currency == "ETH":
-            rate = data.get('data').get('rates').get('ETH')
+            rate = int(data.get('data').get('rates').get('ETH'))
             db.update_eth_balance(user_id=call.message.chat.id, new_eth_balance=eth + exchange_sum * (rate - rate * extra_charge))
         elif changing_currency == "USDT":
-            rate = data.get('data').get('rates').get('USDT')
+            rate = int(data.get('data').get('rates').get('USDT'))
             db.update_usdt_balance(user_id=call.message.chat.id, new_usdt_balance=usdt + exchange_sum * (rate - rate * extra_charge))
     elif currency == "BTC":
         response = requests.get("https://api.coinbase.com/v2/exchange-rates?currency=BTC")
         data = response.json()
         if changing_currency == "RUB":
-            rate = data.get('data').get('rates').get('RUB')
+            rate = int(data.get('data').get('rates').get('RUB'))
             db.update_user_fiat_balance(user_id=call.message.chat.id,
                                         new_fiat_balance=fiat_balance + exchange_sum * (rate - rate * extra_charge))
         elif changing_currency == "ETH":
-            rate = data.get('data').get('rates').get('ETH')
+            rate = int(data.get('data').get('rates').get('ETH'))
             db.update_eth_balance(user_id=call.message.chat.id, new_eth_balance=eth + exchange_sum * (rate - rate * extra_charge))
         elif changing_currency == "USDT":
-            rate = data.get('data').get('rates').get('USDT')
+            rate = int(data.get('data').get('rates').get('USDT'))
             db.update_usdt_balance(user_id=call.message.chat.id, new_usdt_balance=usdt + exchange_sum * (rate - rate * extra_charge))
     elif currency == "ETH":
         response = requests.get("https://api.coinbase.com/v2/exchange-rates?currency=ETH")
         data = response.json()
         if changing_currency == "BTC":
-            rate = data.get('data').get('rates').get('BTC')
+            rate = int(data.get('data').get('rates').get('BTC'))
             db.update_btc_balance(user_id=call.message.chat.id, new_btc_balance=btc + exchange_sum * (rate + rate - extra_charge))
         elif changing_currency == "RUB":
-            rate = data.get('data').get('rates').get('RUB')
+            rate = int(data.get('data').get('rates').get('RUB'))
             db.update_user_fiat_balance(user_id=call.message.chat.id,
                                         new_fiat_balance=fiat_balance + exchange_sum * (rate + rate - extra_charge))
         elif changing_currency == "USDT":
-            rate = data.get('data').get('rates').get('USDT')
+            rate = int(data.get('data').get('rates').get('USDT'))
             db.update_usdt_balance(user_id=call.message.chat.id, new_usdt_balance=usdt + exchange_sum * (rate + rate - extra_charge))
     elif currency == "USDT":
         response = requests.get("https://api.coinbase.com/v2/exchange-rates?currency=USDT")
         data = response.json()
         if changing_currency == "BTC":
-            rate = data.get('data').get('rates').get('BTC')
+            rate = int(data.get('data').get('rates').get('BTC'))
             db.update_btc_balance(user_id=call.message.chat.id, new_btc_balance=btc + exchange_sum * (rate + rate - extra_charge))
         elif changing_currency == "RUB":
-            rate = data.get('data').get('rates').get('RUB')
+            rate = int(data.get('data').get('rates').get('RUB'))
             db.update_user_fiat_balance(user_id=call.message.chat.id, new_fiat_balance=fiat_balance + exchange_sum * (rate - rate * extra_charge))
         elif changing_currency == "ETH":
-            rate = data.get('data').get('rates').get('ETH')
+            rate = int(data.get('data').get('rates').get('ETH'))
             db.update_eth_balance(user_id=call.message.chat.id, new_eth_balance=eth + exchange_sum * (rate - rate * extra_charge))
     await call.message.answer("Успешно обменено!")
