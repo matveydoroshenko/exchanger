@@ -195,7 +195,7 @@ class Database:
 
     def select_extra_charge(self) -> list:
         sql = """
-        SELECT * FROM ExtraCharges
+        SELECT * FROM ExtraCharge
         """
         return self.execute(sql, fetchall=True)
 
