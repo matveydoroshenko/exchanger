@@ -161,8 +161,8 @@ async def deposit_card(call: CallbackQuery, state: FSMContext):
 
 @user_router.message(Payment.sum)
 async def payment_sum(message: Message, state: FSMContext):
-    if int(message.text) < 1000:
-        await message.answer("Вы ввели сумму меньше 1000₽")
+    if int(message.text) < 100:
+        await message.answer("Вы ввели сумму меньше 100₽")
         return
     payment_id = f"{message.from_user.id}:{random.randint(100, 999)}"
     merchant_id = "46cdb37e-cb1d-45dd-b426-eca83015cfbe"
@@ -205,7 +205,7 @@ async def check_payment(call: CallbackQuery, state: FSMContext):
     btc = users_crypto_balance[4]
     currency = user[8]
     await call.message.edit_caption(caption=f"Введите сумму вывода:"
-                                            f"\nМинимальная сумма - {hbold('1000₽')}"
+                                            f"\nМинимальная сумма - {hbold('100₽')}"
                                             f"\nДоступный баланс: {convert_to_rubles(usdt, eth, btc, user[4], currency) - convert_to_rubles(usdt, eth, btc, 0, currency)}")
     await state.set_state(Popoln.sum)
 
@@ -220,8 +220,8 @@ async def popoln_sum(message: Message, state: FSMContext):
     btc = users_crypto_balance[4]
     currency = user[8]
     balance = convert_to_rubles(usdt, eth, btc, user[4], currency) - convert_to_rubles(usdt, eth, btc, 0, currency)
-    if int(message.text) < 1000:
-        await message.answer("Вы ввели сумму меньше 1000₽")
+    if int(message.text) < 100:
+        await message.answer("Вы ввели сумму меньше 100₽")
         return
     if int(message.text) > balance:
         await message.answer("Недостаточно баланса!")
