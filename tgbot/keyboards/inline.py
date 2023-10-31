@@ -1,4 +1,4 @@
-from aiogram.utils.keyboard import InlineKeyboardBuilder
+m./from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 
 def wallet_keyboard():
