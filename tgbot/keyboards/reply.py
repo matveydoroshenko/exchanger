@@ -30,6 +30,9 @@ def currency_choose():
             ],
             [
                 "BTC"
+            ],
+            [
+                "Назад"
             ]
         ],
         "resize_keyboard": True,

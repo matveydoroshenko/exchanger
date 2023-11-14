@@ -1,4 +1,4 @@
-m./from aiogram.utils.keyboard import InlineKeyboardBuilder
+from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 
 def wallet_keyboard():
@@ -27,6 +27,13 @@ def wallet_keyboard():
                     "_": "InlineKeyboardButton",
                     "text": "🔧 Настройки",
                     "callback_data": "settings"
+                }
+            ],
+            [
+                {
+                   "_": "InlineKeyboardButton",
+                   "text": "Курсы валют",
+                   "callback_data": "rates"
                 }
             ]
         ]
@@ -67,7 +74,14 @@ def choose_currency_keyboard():
                     "text": "🇷🇺 RUB",
                     "callback_data": "valut:RUB"
                 }
-            ]
+            ],
+            [
+                {
+                    "_": "InlineKeyboardButton",
+                    "text": "Назад",
+                    "callback_data": "exchange_back"
+                }
+            ],
         ]
     }
     return keyboard
@@ -81,6 +95,11 @@ def verif_keyboard(verified):
     builder.adjust(1, 1)
     return builder.as_markup()
 
+
+def delete_keyboard_methods():
+    builder = InlineKeyboardBuilder()
+    builder.button(text="Назад", callback_data="delete_keyboard_methods")
+    return builder.as_markup()
 
 def about_service_keyboard():
     keyboard = {
@@ -210,6 +229,13 @@ def exchange_keyboard(currency):
                         "callback_data": "exchange:ETH"
                     }
                 ],
+                [
+                    {
+                        "_": "InlineKeyboardButton",
+                        "text": "Назад",
+                        "callback_data": "exchange_back"
+                    }
+                ],
             ]
         }
     else:
@@ -223,6 +249,29 @@ def exchange_keyboard(currency):
                         "callback_data": "exchange:RUB"
                     }
                 ],
+                [
+                    {
+                        "_": "InlineKeyboardButton",
+                        "text": "Назад",
+                        "callback_data": "exchange_back"
+                    }
+                ],
             ]
         }
+    return keyboard
+
+
+def exchange_back_keyboard():
+    keyboard = {
+        "_": "InlineKeyboardMarkup",
+        "inline_keyboard": [
+            [
+                {
+                    "_": "InlineKeyboardButton",
+                    "text": "Назад",
+                    "callback_data": "exchange_back"
+                }
+            ],
+        ]
+    }
     return keyboard

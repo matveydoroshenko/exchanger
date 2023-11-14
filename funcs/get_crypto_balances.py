@@ -28,3 +28,7 @@ def convert_to_rubles(amount_usdt, amount_eth, amount_btc, fiat_balance, currenc
     print(total_usd, fiat_balance)
     total_rubles = (total_usd + fiat_balance) * float(rate)
     return round(total_rubles, 2)
+
+
+def calculate_exchange(amount, exchange_rate, extra_charge):
+    return (amount * exchange_rate) - (amount * exchange_rate * (extra_charge / 100))
